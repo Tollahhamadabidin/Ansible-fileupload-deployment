@@ -1,0 +1,46 @@
+pipeline {
+    agent any
+
+    environment {
+        // Ensures Ansible doesn't fail on host key prompts and outputs color
+        ANSIBLE_HOST_KEY_CHECKING = 'False'
+        ANSIBLE_FORCE_COLOR = 'true'
+    }
+
+    stages {
+        stage('Checkout Code') {
+            steps {
+                git branch: 'main', url: 'https://github.com/Tollahhamadabidin/Ansible-fileupload-deployment.git'
+            }
+        }
+
+        stage('Verify Ansible & Inventory') {
+            steps {
+                sh '''
+                    ansible --version
+                    ansible-playbook -i inventory.ini playbook/fileupload-main.yaml --syntax-check
+                '''
+            }
+        }
+
+        stage('Run Ansible Playbook (Build, Push & Deploy)') {
+            steps {
+                // Uses the SSH key configured in Jenkins Credentials (e.g., 'stag-server-ssh-key')
+                sshagent(credentials: ['stag-server-ssh-key']) {
+                    sh '''
+                        ansible-playbook -i inventory.ini playbook/fileupload-main.yaml
+                    '''
+                }
+            }
+        }
+    }
+
+    post {
+        success {
+            echo 'Spring Fileupload Service built, pushed, and deployed to stag-server successfully!'
+        }
+        failure {
+            echo 'Ansible deployment pipeline failed. Check console output.'
+        }
+    }
+}
