@@ -1,0 +1,7 @@
+services:
+  fileupload-svc:
+    image: bidin19/spring-fileupload-svc:latest
+    container_name: spring-fileupload-svc
+    restart: unless-stopped
+    ports:
+      - "8080:8080"

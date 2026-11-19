@@ -1,0 +1,6 @@
+fileupload_svc:
+  path: "/tmp/spring-fileupload-svc"
+  git_url: "https://github.com/Tollahhamadabidin/YOUR_SPRING_REPO.git"
+  docker:
+    username: "bidin19"
+    image: "spring-fileupload-svc"
