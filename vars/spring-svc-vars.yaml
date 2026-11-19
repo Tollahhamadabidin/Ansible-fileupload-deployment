@@ -1,6 +1,8 @@
-fileupload_svc:
-  path: "/tmp/spring-fileupload-svc"
-  git_url: "https://github.com/Tollahhamadabidin/ACTUAL_SPRING_REPO_NAME.git"
-  docker:
-    username: "bidin19"
-    image: "spring-fileupload-svc"
+fileupload_svc: 
+  git_url: "https://gitlab.com/devops-trainings3/special-trainning/sample-projects/simple-fileupload-gradle.git"
+
+  path: "~/Documents/spring-fileupload"
+  docker: 
+    username: lyvanna544
+    image: ansible-spring-file-svc
+  
