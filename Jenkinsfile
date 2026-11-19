@@ -24,14 +24,20 @@ pipeline {
 
         stage('Run Ansible Playbook') {
             steps {
-                sh '''
-                    ansible-playbook -i inventory.ini playbook/fileupload-main.yaml
-                '''
+                withCredentials([usernamePassword(credentialsId: 'dockerhub-creds', usernameVariable: 'DH_USER', passwordVariable: 'DH_PASS')]) {
+                    sh '''
+                        echo "$DH_PASS" | docker login -u "$DH_USER" --password-stdin
+                        ansible-playbook -i inventory.ini playbook/fileupload-main.yaml
+                    '''
+                }
             }
         }
     }
 
     post {
+        always {
+            sh 'docker logout || true'
+        }
         success {
             echo 'Spring Fileupload Service built, pushed, and deployed to stag-server successfully!'
         }
