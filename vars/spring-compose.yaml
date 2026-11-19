@@ -1,6 +1,6 @@
 services: 
   fileupload-srv:
-    image: lyvanna544/ansible-spring-file-svc:latest
+    image: bidin19/ansible-spring-file-svc:latest
     container_name: spring-fileupload-cont 
     pull_policy: always 
     volumes: 
